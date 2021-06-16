@@ -1,8 +1,8 @@
 namespace Calculator.Core.Operators
 {
-    public class MultiplyOperator : IOperator
+    public class NoOperationOperator : IOperator
     {
-        public OperationType OperationType => OperationType.Multiply;
+        public OperationType OperationType => OperationType.None;
 
         public decimal Operate(decimal operand)
         {
