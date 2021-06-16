@@ -3,6 +3,6 @@
     public interface IOperator
     {
         OperationType OperationType { get; }
-        decimal Operate(decimal operand1, decimal operand2);
+        decimal Operate(decimal leftOperand, decimal rightOperand);
     }
 }

@@ -14,6 +14,7 @@ namespace Calculator.Core.Converters
             switch (value)
             {
                 case "apply":
+                    return OperationType.Apply;
                 case "add":
                     return OperationType.Add;
                 case "divide":

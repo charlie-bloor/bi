@@ -4,8 +4,9 @@ namespace Calculator.Core
     {
         None,
         Add,
+        Apply,
         Divide,
         Multiply,
-        Subtract 
+        Subtract
     }
 }

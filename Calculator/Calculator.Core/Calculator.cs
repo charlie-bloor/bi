@@ -21,15 +21,15 @@ namespace Calculator.Core
         
         public async Task<decimal> CalculateResultAsync(IAsyncEnumerable<Operation> orderedOperations)
         {
-            decimal result = 0;
+            decimal runningTotal = 0;
 
             await foreach (var operation in orderedOperations)
             {
                 var @operator = _operators.Single(o => o.OperationType == operation.OperationType);
-                result = @operator.Operate(result, operation.Operand);
+                runningTotal = @operator.Operate(runningTotal, operation.Operand);
             }
 
-            return result;
+            return runningTotal;
         }
     }
 }

@@ -4,9 +4,9 @@ namespace Calculator.Core.Operators
     {
         public OperationType OperationType => OperationType.Multiply;
 
-        public decimal Operate(decimal operand1, decimal operand2)
+        public decimal Operate(decimal leftOperand, decimal rightOperand)
         {
-            return operand1 * operand2;
+            return leftOperand * rightOperand;
         }
     }
 }

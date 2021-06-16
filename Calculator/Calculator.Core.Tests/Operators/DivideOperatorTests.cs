@@ -8,14 +8,14 @@ namespace Calculator.Core.Tests.Operators
     public class DivideOperatorTests : MockBase<DivideOperator>
     {
         [TestCase(10, 5, 2)]
-        public void Convert_StringIsValid_ReturnsCorrectOperationType(decimal testInputOperand1,
-                                                                      decimal testInputOperand2,
-                                                                      decimal expectedResult)
+        public void Operate_InputIsValid_ReturnsCorrectResult(decimal testInputLeftOperand,
+                                                              decimal testInputRightOperand,
+                                                              decimal expectedResult)
         {
             // Arrange
             
             // Act
-            var result = Subject.Operate(testInputOperand1, testInputOperand2);
+            var result = Subject.Operate(testInputLeftOperand, testInputRightOperand);
 
             // Assert
             result.Should().Be(expectedResult);

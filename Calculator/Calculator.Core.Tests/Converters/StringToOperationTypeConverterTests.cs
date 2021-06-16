@@ -10,7 +10,7 @@ namespace Calculator.Core.Tests.Converters
     public class StringToOperationTypeConverterTests : MockBase<StringToOperationTypeConverter>
     {
         [TestCase("add", OperationType.Add)]
-        [TestCase("apply", OperationType.Add)]
+        [TestCase("apply", OperationType.Apply)]
         [TestCase("divide", OperationType.Divide)]
         [TestCase("multiply", OperationType.Multiply)]
         [TestCase("subtract", OperationType.Subtract)]
