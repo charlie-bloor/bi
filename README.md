@@ -4,7 +4,7 @@
 
 1. >*Any number of Instructions can be specified.*
 
-    In other wordfs, the input file can be arbitrarily large. We might prefer to perform each calculation as it is read, in order to avoid potentially running out of memory. This also means we won't check that the file is valid before we begin processing it. We also need to consider that the number we'd orindarily start with is at the end of the file.
+    In other words, the input file can be arbitrarily large. We might prefer to perform each calculation as it is read, in order to avoid potentially running out of memory. This also means we won't check that the file is valid before we begin processing it. We also need to consider that the number we'd orindarily start with is at the end of the file.
 
 1. Although all examples contain integer numbers, we shall handle fractions. A file could easily contain an instruction that divides an odd number by 2, for example.
 
