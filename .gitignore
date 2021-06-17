@@ -351,4 +351,6 @@ MigrationBackup/
 
 # JetBrains Rider
 **/.idea/
+
+# NCrunch
 /Calculator/Calculator.v3.ncrunchsolution
