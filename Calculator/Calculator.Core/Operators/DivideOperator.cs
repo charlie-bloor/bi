@@ -1,3 +1,6 @@
+using System;
+using Calculator.Core.Exceptions;
+
 namespace Calculator.Core.Operators
 {
     public class DivideOperator : IOperator
@@ -6,6 +9,11 @@ namespace Calculator.Core.Operators
 
         public decimal Operate(decimal leftOperand, decimal rightOperand)
         {
+            if (rightOperand == 0)
+            {
+                throw new InvalidInputFileException("Cannot divide by zero");
+            }
+
             return leftOperand / rightOperand;
         }
     }

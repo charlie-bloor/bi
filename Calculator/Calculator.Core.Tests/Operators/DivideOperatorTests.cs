@@ -1,3 +1,5 @@
+using System;
+using Calculator.Core.Exceptions;
 using Calculator.Core.Operators;
 using FluentAssertions;
 using NUnit.Framework;
@@ -14,12 +16,25 @@ namespace Calculator.Core.Tests.Operators
                                                               decimal expectedResult)
         {
             // Arrange
-            
+
             // Act
             var result = Subject.Operate(testInputLeftOperand, testInputRightOperand);
 
             // Assert
             result.Should().Be(expectedResult);
+        }
+
+        [Test]
+        public void Operate_RightOperandIsZero_ThrowsException()
+        {
+            // Arrange
+            var expectedMessage = "Cannot divide by zero";
+
+            // Act
+            Action act = () => Subject.Operate(1, 0);
+
+            // Assert
+            act.Should().Throw<InvalidInputFileException>().Where(e => e.Message == expectedMessage);
         }
     }
 }
