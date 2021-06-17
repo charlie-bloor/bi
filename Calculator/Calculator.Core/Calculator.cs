@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Calculator.Core.Operators;
+using Calculator.Core.Services;
 
 namespace Calculator.Core
 {
@@ -23,10 +24,13 @@ namespace Calculator.Core
     public class Calculator : ICalculator
     {
         private readonly IEnumerable<IOperator> _operators;
+        private readonly ILineCountService _lineCountService;
 
-        public Calculator(IEnumerable<IOperator> operators)
+        public Calculator(IEnumerable<IOperator> operators,
+                          ILineCountService lineCountService)
         {
             _operators = operators;
+            _lineCountService = lineCountService;
         }
 
         public async Task<decimal> CalculateResultAsync(IAsyncEnumerable<Operation> orderedOperations)
@@ -37,6 +41,7 @@ namespace Calculator.Core
             {
                 var @operator = _operators.Single(o => o.OperationType == operation.OperationType);
                 runningTotal = @operator.Operate(runningTotal, operation.Operand);
+                _lineCountService.IncrementLineCount();
             }
 
             return runningTotal;

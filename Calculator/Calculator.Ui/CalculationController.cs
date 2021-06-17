@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Calculator.Core;
 using Calculator.Core.Exceptions;
 using Calculator.Core.FileReader;
+using Calculator.Core.Services;
 
 namespace Calculator.Ui
 {
@@ -11,12 +12,15 @@ namespace Calculator.Ui
     {
         private readonly ICalculator _calculator;
         private readonly ICalculationsFileReader _calculationsFileReader;
+        private readonly ILineCountService _lineCountService;
 
         public CalculationController(ICalculator calculator,
-                                     ICalculationsFileReader calculationsFileReader)
+                                     ICalculationsFileReader calculationsFileReader,
+                                     ILineCountService lineCountService)
         {
             _calculator = calculator;
             _calculationsFileReader = calculationsFileReader;
+            _lineCountService = lineCountService;
         }
         
         public async Task RunAsync()
@@ -34,6 +38,12 @@ namespace Calculator.Ui
             catch (InvalidInputFileException e)
             {
                 Console.WriteLine("Sorry, but there was a problem with the input file.");
+
+                if (_lineCountService.LineCount != default)
+                {
+                    Console.WriteLine($"The problem occurred at line {_lineCountService.LineCount}.");
+                }
+
                 Console.WriteLine(e.Message);
             }
             catch (Exception e)
