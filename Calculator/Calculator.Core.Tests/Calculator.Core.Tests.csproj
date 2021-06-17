@@ -17,13 +17,4 @@
       <ProjectReference Include="..\TestUtilities\TestUtilities.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <None Update="SampleFiles\File1.txt">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="SampleFiles\File2.txt">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-    </ItemGroup>
-
 </Project>
