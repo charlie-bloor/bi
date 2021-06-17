@@ -8,6 +8,7 @@ namespace Calculator.Core.Tests.Operators
     public class SubtractOperatorTests : MockBase<SubtractOperator>
     {
         [TestCase(7, 2, 5)]
+        [TestCase(1, -0.1, 1.1)]
         public void Operate_InputIsValid_ReturnsCorrectResult(decimal testInputLeftOperand,
                                                               decimal testInputRightOperand,
                                                               decimal expectedResult)

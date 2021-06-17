@@ -8,6 +8,7 @@ namespace Calculator.Core.Tests.Operators
     public class DivideOperatorTests : MockBase<DivideOperator>
     {
         [TestCase(10, 5, 2)]
+        [TestCase(5, -2, -2.5)]
         public void Operate_InputIsValid_ReturnsCorrectResult(decimal testInputLeftOperand,
                                                               decimal testInputRightOperand,
                                                               decimal expectedResult)

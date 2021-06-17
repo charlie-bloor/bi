@@ -8,6 +8,7 @@ namespace Calculator.Core.Tests.Operators
     public class AddOperatorTests : MockBase<AddOperator>
     {
         [TestCase(1, 3, 4)]
+        [TestCase(-1, -3, -4)]
         public void Operate_InputIsValid_ReturnsCorrectResult(decimal testInputLeftOperand,
                                                               decimal testInputRightOperand,
                                                               decimal expectedResult)
