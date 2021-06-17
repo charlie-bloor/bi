@@ -1,9 +1,7 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
-using Calculator.Core;
 using Calculator.Core.Exceptions;
-using Calculator.Core.FileReader;
 using Calculator.Core.Services;
 
 namespace Calculator.Ui
@@ -11,16 +9,16 @@ namespace Calculator.Ui
     public class CalculationController
     {
         private readonly ICalculator _calculator;
-        private readonly ICalculationsFileReader _calculationsFileReader;
-        private readonly ILineCountService _lineCountService;
+        private readonly IFileParser _fileParser;
+        private readonly ILineCounter _lineCounter;
 
         public CalculationController(ICalculator calculator,
-                                     ICalculationsFileReader calculationsFileReader,
-                                     ILineCountService lineCountService)
+                                     IFileParser fileParser,
+                                     ILineCounter lineCounter)
         {
             _calculator = calculator;
-            _calculationsFileReader = calculationsFileReader;
-            _lineCountService = lineCountService;
+            _fileParser = fileParser;
+            _lineCounter = lineCounter;
         }
         
         public async Task RunAsync()
@@ -28,7 +26,7 @@ namespace Calculator.Ui
             try
             {
                 var fileInfo = GetFilePathFromUser();
-                var orderedOperations = _calculationsFileReader.GetOrderedOperations(fileInfo);
+                var orderedOperations = _fileParser.GetOrderedOperations(fileInfo);
                 var result = await _calculator.CalculateResultAsync(orderedOperations);
                 Console.WriteLine(result);
                 Console.WriteLine();
@@ -39,9 +37,9 @@ namespace Calculator.Ui
             {
                 Console.WriteLine("Sorry, but there was a problem with the input file.");
 
-                if (_lineCountService.LineCount != default)
+                if (_lineCounter.LineCount != default)
                 {
-                    Console.WriteLine($"The problem occurred at line {_lineCountService.LineCount}.");
+                    Console.WriteLine($"The problem occurred at line {_lineCounter.LineCount}.");
                 }
 
                 Console.WriteLine(e.Message);

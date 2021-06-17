@@ -5,7 +5,7 @@ using TestUtilities;
 
 namespace Calculator.Core.Tests.Services
 {
-    public class LineCountServiceTests : MockBase<LineCountService>
+    public class LineCounterTests : MockBase<LineCounter>
     {
         [Test]
         public void LineCount_HasNotBeenIncremented_Returns0()

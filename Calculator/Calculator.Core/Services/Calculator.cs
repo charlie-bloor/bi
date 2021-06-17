@@ -2,17 +2,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Calculator.Core.Operators;
-using Calculator.Core.Services;
 
-namespace Calculator.Core
+namespace Calculator.Core.Services
 {
     /// <summary>
-    /// Calculates the result of supplied operations
+    /// Calculates the result of supplied operations.
     /// </summary>
     public interface ICalculator
     {
         /// <summary>
-        /// Calculate the result of the supplied operations
+        /// Calculate the result of the supplied operations.
         /// </summary>
         /// <returns>The total, having performed all of the supplied operations</returns>
         /// <remarks>
@@ -24,13 +23,13 @@ namespace Calculator.Core
     public class Calculator : ICalculator
     {
         private readonly IEnumerable<IOperator> _operators;
-        private readonly ILineCountService _lineCountService;
+        private readonly ILineCounter _lineCounter;
 
         public Calculator(IEnumerable<IOperator> operators,
-                          ILineCountService lineCountService)
+                          ILineCounter lineCounter)
         {
             _operators = operators;
-            _lineCountService = lineCountService;
+            _lineCounter = lineCounter;
         }
 
         public async Task<decimal> CalculateResultAsync(IAsyncEnumerable<Operation> orderedOperations)
@@ -41,7 +40,7 @@ namespace Calculator.Core
             {
                 var @operator = _operators.Single(o => o.OperationType == operation.OperationType);
                 runningTotal = @operator.Operate(runningTotal, operation.Operand);
-                _lineCountService.IncrementLineCount();
+                _lineCounter.IncrementLineCount();
             }
 
             return runningTotal;

@@ -1,16 +1,16 @@
 ﻿namespace Calculator.Core.Services
 {
-    public interface ILineCountService
+    /// <summary>
+    /// Simple shared data service to keep track of the line number.
+    /// Ror use in error reporting.
+    /// </summary>
+    public interface ILineCounter
     {
         long LineCount { get; }
         void IncrementLineCount();
     }
 
-    /// <summary>
-    /// Simple data service to keep track of the line number
-    /// for use in error reporting.
-    /// </summary>
-    public class LineCountService : ILineCountService
+    public class LineCounter : ILineCounter
     {
         public long LineCount { get; private set; }
 

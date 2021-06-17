@@ -5,9 +5,9 @@ using FluentAssertions;
 using NUnit.Framework;
 using TestUtilities;
 
-namespace Calculator.Core.Tests
+namespace Calculator.Core.Tests.Services
 {
-    public class CalculatorTests : MockBase<Calculator>
+    public class CalculatorTests : MockBase<Core.Services.Calculator>
     {
         protected override void SetUp()
         {

@@ -1,19 +1,30 @@
 using System.Collections.Generic;
 using System.IO;
 using Calculator.Core.Converters;
+using Calculator.Core.Exceptions;
 
-namespace Calculator.Core.FileReader
+namespace Calculator.Core.Services
 {
-    public interface ICalculationsFileReader
+    /// <summary>
+    /// Parses the input file and returns the operations to perform,
+    /// in order, starting with the "apply" instruction.
+    /// </summary>
+    public interface IFileParser
     {
+        /// <summary>
+        /// Parse the input file and return the operations to perform,
+        /// in order, starting with the "apply" instruction.
+        /// </summary>
         IAsyncEnumerable<Operation> GetOrderedOperations(FileInfo fileInfo);
     }
 
-    public class CalculationsFileReader : ICalculationsFileReader
+    public class FileParser : IFileParser
     {
+        // TODO: we would want to make this cancellable if we were processing very large files.
+
         private readonly IStringToOperationConverter _stringToOperationConverter;
 
-        public CalculationsFileReader(IStringToOperationConverter stringToOperationConverter)
+        public FileParser(IStringToOperationConverter stringToOperationConverter)
         {
             _stringToOperationConverter = stringToOperationConverter;
         }
@@ -21,30 +32,24 @@ namespace Calculator.Core.FileReader
         // TODO: make cancellable
         public async IAsyncEnumerable<Operation> GetOrderedOperations(FileInfo fileInfo)
         {
-            // Handle file problems
-            // yield return convert GetLastLine
-            // for each remaining line, yield return
-
-            // Return the last instruction first
+            // Return the last operation first
             var lastLineOfFile = GetLastLineOfFile(fileInfo);
             var operation = _stringToOperationConverter.Convert(lastLineOfFile);
 
             if (operation.OperationType != OperationType.Apply)
             {
-                // TODO: throw
+                throw new InvalidInputFileException("The last line of the file was not valid.");
             }
 
             yield return operation;
 
             string nextLine;
-            var lineCounter = 1; // TODO: use
 
             using var streamReader = File.OpenText(fileInfo.FullName);
 
             while ((nextLine = await streamReader.ReadLineAsync()) != null)
             {
                 operation = _stringToOperationConverter.Convert(nextLine);
-                lineCounter++;
 
                 if (operation.OperationType == OperationType.Apply)
                 {
@@ -63,14 +68,13 @@ namespace Calculator.Core.FileReader
 
             if (stream.Length == 0)
             {
-                // The file is empty
-                return null;
+                throw new InvalidInputFileException("The file was found to be empty.");
             }
 
-            // Start at end of file
+            // Start at end of file.
             stream.Position = stream.Length - 1;
 
-            // While we have not yet reached start of file, read bytes backwards until '\n' byte is encountered
+            // While the start of the file has not been reached, read bytes backwards until an '\n' byte is encountered.
             while (stream.Position > 0)
             {
                 stream.Position--;
@@ -78,23 +82,22 @@ namespace Calculator.Core.FileReader
 
                 if (byteFromFile < 0)
                 {
-                    // Someone must have emptied the file while it was being read
-                    throw new IOException("Error reading from file at " + fileInfo.FullName);
+                    throw new InvalidInputFileException("The file may have been written to during processing.");
                 }
 
                 if (byteFromFile == '\n')
                 {
-                    // The new line was found; stream.Position is 1 after the '\n' char
+                    // The new line was found. The stream position is 1 after the '\n' character.
                     break;
                 }
 
                 stream.Position--;
             }
 
-            // stream.Position will is immediately after the '\n' char or position 0 if no '\n' char
-            byte[] bytes = new BinaryReader(stream).ReadBytes((int) (stream.Length - stream.Position));
+            // The stream will be positioned immediately after the '\n' char, or position zero if no '\n' character.
+            var bytes = new BinaryReader(stream).ReadBytes((int) (stream.Length - stream.Position));
 
-            // TODO: handle non-ASCII encodings?
+            // TODO: we might need to handle other encodings.
             return System.Text.Encoding.ASCII.GetString(bytes);
         }
     }

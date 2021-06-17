@@ -1,6 +1,5 @@
 ﻿using System.Reflection;
 using Calculator.Core.Converters;
-using Calculator.Core.FileReader;
 using Calculator.Core.Operators;
 using Calculator.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,15 +17,15 @@ namespace Calculator.Core.Extensions
 
         private static void AddSingletonServices(IServiceCollection services)
         {
-            services.AddSingleton<ILineCountService, LineCountService>();
+            services.AddSingleton<ILineCounter, LineCounter>();
         }
 
         private static void AddTransientServices(IServiceCollection services)
         {
-            services.AddTransient<ICalculator, Calculator>();
-            services.AddTransient<ICalculationsFileReader, CalculationsFileReader>();
+            services.AddTransient<ICalculator, Services.Calculator>();
+            services.AddTransient<IFileParser, FileParser>();
             services.AddTransient<IStringToOperationConverter, StringToOperationConverter>();
-            services.AddTransient<ICalculationsFileReader, CalculationsFileReader>();
+            services.AddTransient<IFileParser, FileParser>();
             services.AddTransient<IStringToOperandConverter, StringToOperandConverter>();
             services.AddTransient<IStringToOperationTypeConverter, StringToOperationTypeConverter>();
 
