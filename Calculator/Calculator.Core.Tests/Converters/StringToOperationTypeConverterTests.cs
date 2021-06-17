@@ -24,7 +24,7 @@ namespace Calculator.Core.Tests.Converters
         [TestCase("divide", OperationType.Divide)]
         [TestCase("multiply", OperationType.Multiply)]
         [TestCase("subtract", OperationType.Subtract)]
-        public void Convert_StringIsValid_ReturnsCorrectOperationType(string testInputText, OperationType expectedOperationType)
+        public void Convert_StringIsValid_ReturnExpectedOperationType(string testInputText, OperationType expectedOperationType)
         {
             // Arrange
             
@@ -39,7 +39,7 @@ namespace Calculator.Core.Tests.Converters
         [TestCase(null)]
         [TestCase(" ")]
         [TestCase("garbage")]
-        public void Convert_StringIsNotValid_ThrowsException(string testInputText)
+        public void Convert_StringIsNotValid_ThrowsInvalidInputFileException(string testInputText)
         {
             // Arrange
             var expectedMessage = $"Unknown operation '{testInputText}'";

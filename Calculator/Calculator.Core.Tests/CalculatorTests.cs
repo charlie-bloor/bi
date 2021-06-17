@@ -13,24 +13,21 @@ namespace Calculator.Core.Tests
         {
             // For these tests, use the real dependencies rather than mocked ones.
             // We could mock them, but it's simpler not to and allows for greater confidence
-            // that we can calculate the total.
-
-            // IEnumerable<IOperator>
-            var operators = new List<IOperator>
+            // that we can calculate the result.
+            Mocker.Use<IEnumerable<IOperator>>(new List<IOperator>
             {
                 new AddOperator(),
                 new ApplyOperator(),
                 new DivideOperator(),
                 new MultiplyOperator(),
                 new SubtractOperator()
-            };
+            });
 
-            Mocker.Use<IEnumerable<IOperator>>(operators);
             base.SetUp();
         }
 
         [Test]
-        public async Task CalculateResultAsync_InputIsTestCase1_ReturnsCorrectResult()
+        public async Task CalculateResultAsync_InputIsTestCase1_ReturnsExpectedResult()
         {
             // Arrange
             static async IAsyncEnumerable<Operation> GetTestInputAsync()
@@ -48,7 +45,7 @@ namespace Calculator.Core.Tests
         }
 
         [Test]
-        public async Task CalculateResultAsync_InputIsTestCase2_ReturnsCorrectResult()
+        public async Task CalculateResultAsync_InputIsTestCase2_ReturnsExpectedResult()
         {
             // Arrange
             static async IAsyncEnumerable<Operation> GetTestInputAsync()

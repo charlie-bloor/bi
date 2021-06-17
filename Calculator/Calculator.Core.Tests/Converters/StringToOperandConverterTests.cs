@@ -11,7 +11,7 @@ namespace Calculator.Core.Tests.Converters
     public class StringToOperandConverterTests : MockBase<StringToOperandConverter>
     {
         [TestCaseSource(nameof(GetValidTestCases))]
-        public void Convert_StringIsValid_ReturnsCorrectOperationType((string TestInputText, decimal ExpectedResult) testCase)
+        public void Convert_StringIsValid_ReturnsExpectedOperand((string TestInputText, decimal ExpectedResult) testCase)
         {
             // Arrange
             
@@ -26,7 +26,7 @@ namespace Calculator.Core.Tests.Converters
         [TestCase("")]
         [TestCase(" ")]
         [TestCase("Garbage")]
-        public void Convert_StringIsNotValid_ReturnsCorrectOperationType(string testInputText)
+        public void Convert_StringIsNotValid_ThrowsInvalidInputFileException(string testInputText)
         {
             // Arrange
 
