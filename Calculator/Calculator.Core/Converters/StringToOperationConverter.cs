@@ -8,7 +8,7 @@ namespace Calculator.Core.Converters
     }
 
     /// <summary>
-    /// Creates a strongly-typed <see cref="Operation"/> from text such as "add 2"
+    /// Converts text such as "add 2" to a strongly typed <see cref="Operation"/>
     /// </summary>
     public class StringToOperationConverter : IStringToOperationConverter
     {
