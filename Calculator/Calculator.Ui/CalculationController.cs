@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using Calculator.Core;
+using Calculator.Core.Exceptions;
 using Calculator.Core.FileReader;
 
 namespace Calculator.Ui
@@ -20,13 +21,26 @@ namespace Calculator.Ui
         
         public async Task RunAsync()
         {
-            var fileInfo = GetFilePathFromUser();
-            var orderedOperations = _calculationsFileReader.GetOrderedOperations(fileInfo);
-            var result = await _calculator.CalculateResultAsync(orderedOperations);
-            Console.WriteLine(result);
-            Console.WriteLine();
-            Console.WriteLine("Press any key to quit");
-            Console.ReadLine();
+            try
+            {
+                var fileInfo = GetFilePathFromUser();
+                var orderedOperations = _calculationsFileReader.GetOrderedOperations(fileInfo);
+                var result = await _calculator.CalculateResultAsync(orderedOperations);
+                Console.WriteLine(result);
+                Console.WriteLine();
+                Console.WriteLine("Press any key to quit");
+                Console.ReadLine();
+            }
+            catch (InvalidInputFileException e)
+            {
+                Console.WriteLine("Sorry, but there was a problem with the input file.");
+                Console.WriteLine(e.Message);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Sorry, but there was a problem.");
+                Console.WriteLine(e.Message);
+            }
         }
 
         private FileInfo GetFilePathFromUser()
