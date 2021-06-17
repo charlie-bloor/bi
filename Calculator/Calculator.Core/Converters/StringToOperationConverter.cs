@@ -31,7 +31,7 @@ namespace Calculator.Core.Converters
 
             if (indexOfFirstSpace == -1)
             {
-                throw new InvalidInputFileException("No space character was found");
+                throw new InvalidInputFileException("No space character was found in the line");
             }
 
             // Because we've already trimmed the input text, we know that indexOfFirstSpace > zero.
