@@ -9,6 +9,16 @@ namespace Calculator.Core.Tests.Converters
 {
     public class StringToOperationTypeConverterTests : MockBase<StringToOperationTypeConverter>
     {
+        protected override void SetUp()
+        {
+            // For these tests, use the real dependencies rather than mocked ones.
+            // We could mock them, but it's simpler not to and allows for greater confidence
+            // that we can convert a line from the file.
+            Mocker.Use<IStringToOperandConverter>(new StringToOperandConverter());
+            Mocker.Use<IStringToOperationTypeConverter>(new StringToOperationTypeConverter());
+            base.SetUp();
+        }
+
         [TestCase("add", OperationType.Add)]
         [TestCase("apply", OperationType.Apply)]
         [TestCase("divide", OperationType.Divide)]

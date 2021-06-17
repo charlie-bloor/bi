@@ -8,6 +8,16 @@ namespace Calculator.Core.Tests.Converters
 {
     public class StringToOperationConverterTests : MockBase<StringToOperationConverter>
     {
+        protected override void SetUp()
+        {
+            // For these tests, use the real dependencies rather than mocked ones.
+            // We could mock them, but it's simpler not to and allows for greater confidence
+            // that we can convert a line from the file.
+            Mocker.Use<IStringToOperandConverter>(new StringToOperandConverter());
+            Mocker.Use<IStringToOperationTypeConverter>(new StringToOperationTypeConverter());
+            base.SetUp();
+        }
+
         [TestCaseSource(nameof(GetTestCases))]
         public void Convert_StringIsValid_ReturnsExpectedOperation((string TestInputText, Operation ExpectedResult) testCase)
         {
@@ -18,16 +28,6 @@ namespace Calculator.Core.Tests.Converters
 
             // Assert
             result.Should().BeEquivalentTo(testCase.ExpectedResult);
-        }
-
-        protected override void SetUp()
-        {
-            // For these tests, use the real dependencies rather than mocked ones.
-            // We could mock them, but it's simpler not to and allows for greater confidence
-            // that we can convert a line from the file.
-            Mocker.Use<IStringToOperandConverter>(new StringToOperandConverter());
-            Mocker.Use<IStringToOperationTypeConverter>(new StringToOperationTypeConverter());
-            base.SetUp();
         }
 
         private static IEnumerable<(string TestInputText, Operation ExpectedResult)> GetTestCases()
