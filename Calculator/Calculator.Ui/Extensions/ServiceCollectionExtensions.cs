@@ -1,7 +1,4 @@
-﻿using System.Reflection;
-using Calculator.Core;
-using Calculator.Core.Operators;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace Calculator.Ui.Extensions
 {
