@@ -12,7 +12,7 @@ namespace Calculator.Core.Extensions
         {
             services.AddTransient<ICalculator, Calculator>();
             services.AddTransient<ICalculationsFileReader, CalculationsFileReader>();
-            services.AddTransient<IOperationFactory, OperationFactory>();
+            services.AddTransient<IStringToOperationConverter, StringToOperationConverter>();
             services.AddTransient<ICalculationsFileReader, CalculationsFileReader>();
             services.AddTransient<IStringToOperandConverter, StringToOperandConverter>();
             services.AddTransient<IStringToOperationTypeConverter, StringToOperationTypeConverter>();

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
+using Calculator.Core.Converters;
 
 namespace Calculator.Core.FileReader
 {
@@ -10,11 +11,11 @@ namespace Calculator.Core.FileReader
 
     public class CalculationsFileReader : ICalculationsFileReader
     {
-        private readonly IOperationFactory _operationFactory;
+        private readonly IStringToOperationConverter _stringToOperationConverter;
 
-        public CalculationsFileReader(IOperationFactory operationFactory)
+        public CalculationsFileReader(IStringToOperationConverter stringToOperationConverter)
         {
-            _operationFactory = operationFactory;
+            _stringToOperationConverter = stringToOperationConverter;
         }
 
         // TODO: make cancellable
@@ -26,7 +27,7 @@ namespace Calculator.Core.FileReader
 
             // Return the last instruction first
             var lastLineOfFile = GetLastLineOfFile(fileInfo);
-            var operation = _operationFactory.Create(lastLineOfFile);
+            var operation = _stringToOperationConverter.Convert(lastLineOfFile);
 
             if (operation.OperationType != OperationType.Apply)
             {
@@ -42,7 +43,7 @@ namespace Calculator.Core.FileReader
 
             while ((nextLine = await streamReader.ReadLineAsync()) != null)
             {
-                operation = _operationFactory.Create(nextLine);
+                operation = _stringToOperationConverter.Convert(nextLine);
                 lineCounter++;
 
                 if (operation.OperationType == OperationType.Apply)
